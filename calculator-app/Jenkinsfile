@@ -1,0 +1,19 @@
+pipeline {
+  agent any
+  stages {
+    stage("Build") {
+      steps {
+        dir("calculator-app") {
+          sh "npm install"
+          sh "npm test"
+          sh "npm run build"
+        }
+      }
+    }
+  }
+  post {
+    success {
+      archiveArtifacts artifacts: "calculator-app/dist/**", fingerprint: true
+    }
+  }
+}
