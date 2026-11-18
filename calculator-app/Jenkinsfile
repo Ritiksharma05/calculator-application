@@ -1,16 +1,23 @@
 pipeline {
   agent any
+
+  options {
+    timestamps()
+    disableConcurrentBuilds()
+  }
+
   stages {
     stage("Build") {
       steps {
         dir("calculator-app") {
-          sh "npm install"
-          sh "npm test"
-          sh "npm run build"
+          bat "npm install"
+          bat "npm test"
+          bat "npm run build"
         }
       }
     }
   }
+
   post {
     success {
       archiveArtifacts artifacts: "calculator-app/dist/**", fingerprint: true
